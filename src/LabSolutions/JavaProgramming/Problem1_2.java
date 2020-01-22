@@ -5,56 +5,36 @@ import java.util.Random;
 
 public class Problem1_2 {
 
+	// Checks all substrings and counts the number of L's and R's, if equal save the substring and
+	// return this list when finished with some subtle optimizations
 	private static ArrayList<String> bruteForceSolution(String str) {
 		
-		ArrayList<String> list = new ArrayList<>();
 		
+		// List of balanced substrings
+		ArrayList<String> balancedStrings = new ArrayList<>();
+		
+		// Beginning at each index i
 		for(int i = 0; i < str.length(); ++i) {
 			
-			int leftLCount = 0;
-			int leftRCount = 0;
-			for(int j = 0; j < i; j++) {
-				if(str.charAt(j) == 'L')      leftLCount++;
-				else if(str.charAt(j) == 'R') leftRCount++;
+			// For each ending index
+			for(int j = i; j < str.length(); ++j) {
+			
+				// Only even length strings can potentially be balanced
+				if((j - i + 1) % 2 == 1) continue;
+				
+				int LCount = 0;
+				int RCount = 0;
+				
+				for(char c : str.substring(i,j).toCharArray()) {
+					if(c == 'L')      LCount++;
+					else if(c == 'R') RCount++;
+				}
+				
+				if(LCount == RCount) balancedStrings.add(str.substring(i,j));
 			}
-			
-			if(i > 0 && leftLCount == leftRCount) list.add(str.substring(0, i));
-			
-			int rightLCount = 0;
-			int rightRCount = 0;
-			for(int j = i; j < str.length(); j++) {
-				if(str.charAt(j) == 'L')      rightLCount++;
-				else if(str.charAt(j) == 'R') rightRCount++;
-			}
-			
-			if(i < str.length() && rightLCount == rightRCount) list.add(str.substring(i));
-			
 		}
 		
-		return list;
-	}
-	
-	private static ArrayList<String> optimalSolution(String str) {
-		
-		ArrayList<String> list = new ArrayList<>();
-		
-		int lCount = 0;
-		int rCount = 0;
-		for(int i = 0; i < str.length(); ++i) {
-			if(str.charAt(i) == 'L') lCount++;
-			else if(str.charAt(i) == 'R') rCount++;
-			if(lCount == rCount) list.add(str.substring(0,i+1));
-		}
-		
-		lCount = 0;
-		rCount = 0;
-		for(int i = str.length() - 1; i >= 0; --i) {
-			if(str.charAt(i) == 'L') lCount++;
-			else if(str.charAt(i) == 'R') rCount++;
-			if(lCount == rCount) list.add(str.substring(i));
-		}
-		
-		return list;
+		return balancedStrings;
 	}
 	
 	private static String generateString() {
@@ -77,11 +57,5 @@ public class Problem1_2 {
 		for(String s : bruteForceSolution(str)) {
 			System.out.print(s + " ");
 		}
-		System.out.println();
-		System.out.print("Optimal Solution:    ");
-		for(String s : optimalSolution(str)) {
-			System.out.print(s + " ");
-		}
-		
 	}
 }
