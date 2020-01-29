@@ -1,0 +1,36 @@
+package LabSolutions.ObjectOrientedProgramming;
+
+public class Polynomial<T> {
+	T obj1;
+	double[] c; // stores coefficients
+	
+	Polynomial<double[]> p1;
+	
+	//assign the coefficients
+	public Polynomial(double[] coefficients, int size) {
+		for(int idx = 0; idx < size; idx++)
+			c[idx] = coefficients[idx];
+		
+	}
+	
+	Polynomial(T obj1){
+		this.obj1  = obj1;
+	}
+	
+	/*public void setC(int idx, T c) {
+		c[idx] = c;
+	}*/
+	
+	// display object 
+	public void print() {
+		System.out.println(obj1);
+	}
+	
+	public static void main(String args[]) {
+		// size 
+		double[] coefficients = {2, 3, 4};
+		Polynomial p1(coefficients, 3);
+	}
+	
+	
+}
